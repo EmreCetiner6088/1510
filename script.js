@@ -6,11 +6,11 @@ let isTyping = false;  // Takip ederiz, yazma işlemi devam ediyor mu?
 const messages = [
     "Hey !",
     "Merhaba Esma, ben Emre ile senin gelecekteki kedin",
-    "Evet, doğru duydun; senin gelecekteki kedinim!",
+    "Evet, doğru duydun senin gelecekteki kedinim!",
     "Emre, zamanlar arası bir yolculuk yapıp beni buraya hapsetti",
     "Bunu neden mi yaptı? Sana gelecekten haberler vermem için!",
     "Haince!, değil mi?",
-    "Çok değil işim bitince beni geri bırakıp bana yaş mama vericeğini söyledi",
+    "Çok değil işim bitince beni geri bırakıp yaş mama vericeğini söyledi",
     "Neyse, seni daha fazla merakta bırakmadan başlayayım",
     "Şu anda sınav dönemindesin, değil mi?",
     "Harika bir şekilde çalışmaya devam et",
@@ -65,7 +65,7 @@ function typeMessage(message, complete = false) {
                     window.location.href = "main.html";
                 }
             }
-        }, 100); // Typing delay of 100ms per character
+        }, 70); // Typing delay of 100ms per character
     }
 }
 
