@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Galeri</title>
+    <style>
+        body {
+            background-color: #ffc0cb; /* Pembemsi arka plan rengi */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #ff69b4; /* Daha koyu pembe navbar rengi */
+            padding: 1em;
+            text-align: center;
+        }
+        .navbar button {
+            background-color: white;
+            color: #ff69b4;
+            border: none;
+            padding: 0.5em 1em;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .navbar button:hover {
+            background-color: #ff1493;
+            color: white;
+        }
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1em;
+        }
+        .gallery-item {
+            position: relative;
+            margin: 1em 0;
+        }
+        .gallery img {
+            max-width: 100%;
+            height: auto;
+        }
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff1493;
+            color: white;
+            border: none;
+            padding: 0.5em;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .delete-button:hover {
+            background-color: #ff69b4;
+        }
+        .upload-form {
+            margin: 1em 0;
+            text-align: center;
+        }
+        .upload-form input[type="file"] {
+            display: none;
+        }
+        .upload-form label {
+            background-color: #ff69b4;
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .upload-form button {
+            background-color: #ff1493;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 1em;
+        }
+        .upload-form button:hover {
+            background-color: #ff69b4;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="location.href='main.html'">Anasayfa</button>
+    </div>
+
+    <div class="gallery" id="gallery">
+        <!-- JavaScript ile img etiketleri eklenecek -->
+    </div>
+
+    <div class="upload-form">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput">Dosya Seç</label>
+            <input type="file" id="fileInput" name="file" accept="image/*">
+            <button type="submit">Yükle</button>
+        </form>
+    </div>
+
+    <script>
+        const gallery = document.getElementById('gallery');
+        const uploadForm = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+
+        // Dosya yükleme formunu işle
+        uploadForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const files = fileInput.files;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = `Fotoğraf ${i + 1}`;
+
+                    const galleryItem = document.createElement('div');
+                    galleryItem.classList.add('gallery-item');
+                    galleryItem.appendChild(img);
+
+                    const deleteButton = document.createElement('button');
+                    deleteButton.classList.add('delete-button');
+                    deleteButton.innerText = 'Sil';
+                    deleteButton.addEventListener('click', function() {
+                        gallery.removeChild(galleryItem);
+                        removeImageFromLocalStorage(e.target.result);
+                    });
+
+                    galleryItem.appendChild(deleteButton);
+                    gallery.appendChild(galleryItem);
+
+                    // LocalStorage'a kaydet
+                    const images = JSON.parse(localStorage.getItem('images')) || [];
+                    images.push(e.target.result);
+                    localStorage.setItem('images', JSON.stringify(images));
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // LocalStorage'dan resimleri yükle
+        window.addEventListener('load', function() {
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            images.forEach(src => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = 'Fotoğraf';
+
+                const galleryItem = document.createElement('div');
+                galleryItem.classList.add('gallery-item');
+                galleryItem.appendChild(img);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-button');
+                deleteButton.innerText = 'Sil';
+                deleteButton.addEventListener('click', function() {
+                    gallery.removeChild(galleryItem);
+                    removeImageFromLocalStorage(src);
+                });
+
+                galleryItem.appendChild(deleteButton);
+                gallery.appendChild(galleryItem);
+            });
+        });
+
+        function removeImageFromLocalStorage(src) {
+            const images = JSON.parse(localStorage.getItem('images')) || [];
+            const updatedImages = images.filter(image => image !== src);
+            localStorage.setItem('images', JSON.stringify(updatedImages));
+        }
+    </script>
+</body>
+</html>

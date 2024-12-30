@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #ffc0cb; /* Pembemsi arka plan rengi */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .navbar {
+            background-color: #ff69b4; /* Daha koyu pembe navbar rengi */
+            padding: 1em;
+            text-align: center;
+            width: 100%;
+        }
+        .navbar button {
+            background-color: white;
+            color: #ff69b4;
+            border: none;
+            padding: 0.5em 1em;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .navbar button:hover {
+            background-color: #ff1493;
+            color: white;
+        }
+        #image-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 20px; /* Galeri butonunun 20px aşağısında */
+        }
+        #image-container img {
+            width: auto;
+            height: 550px; /* Yüksekliği ayarla */
+            max-width: none; /* Maksimum genişlik sınırını kaldır */
+            transform: rotate(-90deg); /* Resmi 90 derece sola döndür */
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+        #buttons button {
+            background-color: #ff69b4; /* Pembe buton rengi */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        #buttons button:hover {
+            background-color: #ff1493; /* Daha koyu pembe buton rengi */
+        }
+
+        /* Mobil uyumlu stiller */
+        @media (max-width: 768px) {
+            .navbar button {
+                font-size: 1em;
+                padding: 0.5em;
+            }
+            #image-container {
+                margin-top: 10px;
+            }
+            #image-container img {
+                width: auto;
+                height: 200px; /* Mobilde yüksekliği ayarla */
+            }
+            #buttons button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="location.href='gallery.html'">Galeri</button>
+    </div>
+
+    <!-- Resim ve Butonlar -->
+    <div id="image-container">
+        <img src="images/main.jpeg" alt="image">
+        <h2>Beni Seviyor musun?</h2>
+        <div id="buttons">
+            <button id="yes-btn">Seviyorum</button>
+            <button id="no-btn">Sevmiyorum</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('yes-btn').addEventListener('click', function() {
+            alert('Ben de seni çok seviyorumm!');
+        });
+
+        document.getElementById('no-btn').addEventListener('mouseover', function() {
+            const noBtn = document.getElementById('no-btn');
+            const container = document.getElementById('image-container');
+            const containerRect = container.getBoundingClientRect();
+            const noBtnRect = noBtn.getBoundingClientRect();
+
+            const newTop = Math.random() * (containerRect.height - noBtnRect.height);
+            const newLeft = Math.random() * (containerRect.width - noBtnRect.width);
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.top = `${newTop}px`;
+            noBtn.style.left = `${newLeft}px`;
+        });
+    </script>
+</body>
+</html>
